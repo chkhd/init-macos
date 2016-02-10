@@ -1,0 +1,35 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Automatically log in the vagrant user
+cat <<EOF > /usr/local/sbin/x11login
+#!/bin/sh
+
+exec /bin/login "\${@}" START_X11=1
+EOF
+
+chmod a+x /usr/local/sbin/x11login
+
+cat <<EOF > /etc/systemd/system/getty@tty1.service
+[Service]
+Type=idle
+ExecStart=
+ExecStart=-/sbin/agetty -a vagrant -l /usr/local/sbin/x11login -J %I \$TERM
+EOF
+
+systemctl daemon-reload
+
+cd ~vagrant
+grep "START_X11" .bashrc
+if [ $? -eq 1 ]
+then
+    ln -s ~vagrant/.bashrc ~vagrant/.bash_profile
+    cat <<EOF >> ~vagrant/.bashrc
+
+if [[ \${START_X11} == 1 ]]
+then
+  unset START_X11
+  xinit
+fi
+EOF
+fi
