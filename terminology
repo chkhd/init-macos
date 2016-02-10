@@ -1,0 +1,59 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Compile Terminology
+apt-get install -y libxcb-shape0-dev libxcb-keysyms1-dev libpulse-dev libsndfile1-dev \
+        libudev-dev libblkid-dev libmount-dev libgstreamer1.0-dev libssl-dev \
+        libspectre-dev libpoppler-dev libraw-dev libfribidi-dev libcogl-gles2-dev \
+        libbullet-dev libgstreamer-plugins-base1.0-dev libvlc-dev bison flex gawk \
+        doxygen check autoconf-archive libpam0g-dev libxp-dev luajit libluajit-5.1-dev
+
+cd ~vagrant
+cd src
+mkdir enlightenment
+cd enlightenment
+
+## Dependencies
+PREFIX="/usr/local"
+PROJECTS="efl emotion_generic_players evas_generic_loaders elementary"
+SITE="http://git.enlightenment.org/core/"
+OPT="--prefix=$PREFIX"
+PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+PATH="$PREFIX/bin:$PATH"
+LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
+TLOG="installer.log"
+rm -f $TLOG
+touch $TLOG
+date >> $TLOG
+
+## Download and compile each module
+for PROJ in $PROJECTS; do
+    if [ ! -d $PROJ ]; then
+        git clone --depth=1 $SITE$PROJ.git $PROJ
+    fi
+    cd $PROJ*
+    ./autogen.sh $OPT
+    make
+    make install
+    cd ..
+    ldconfig
+    echo $PROJ" is installed" >> $TLOG
+done
+
+ln -s /usr/local/share/dbus-1/services/org.enlightenment.Ethumb.service /usr/share/dbus-1/services/org.enlightenment.Ethumb.service
+
+## Terminology itself
+git clone --depth=1 http://git.enlightenment.org/apps/terminology.git
+cd terminology
+sh autogen.sh
+make all
+make install
+ldconfig
+
+## Create menu shortcut
+ln -s /usr/local/share/xsessions/enlightenment.desktop /usr/share/xsessions/
+
+## Clean up
+cd ~vagrant
+cd src
+rm -rf enlightenment
