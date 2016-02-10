@@ -4,7 +4,7 @@
 ## Install required packages
 apt-get install -y xserver-xorg xserver-xorg-input-all xinit \
         virtualbox-guest-x11 virtualbox-guest-dkms wmaker \
-        wmhdplop wmclock
+        wmhdplop wmclock wmforecast
 
 cd ~vagrant
 cat <<EOF > .xinitrc
