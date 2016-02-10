@@ -8,7 +8,7 @@ apt-get install -y build-essential automake autoconf libtool libgnome2-dev \
         libxt-dev python-dev ruby-dev git-core cscope curl clang ctags cmake
 
 ## Compile Vim
-cd ~vagrant
+cd ~
 cd src
 git clone --depth=1 https://github.com/vim/vim.git
 cd vim
@@ -24,7 +24,7 @@ make
 make install
 
 ## Clean up
-cd ~vagrant
+cd ~
 cd src
 cd vim
 

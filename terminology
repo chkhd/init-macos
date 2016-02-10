@@ -8,7 +8,7 @@ apt-get install -y libxcb-shape0-dev libxcb-keysyms1-dev libpulse-dev libsndfile
         libbullet-dev libgstreamer-plugins-base1.0-dev libvlc-dev bison flex gawk \
         doxygen check autoconf-archive libpam0g-dev libxp-dev luajit libluajit-5.1-dev
 
-cd ~vagrant
+cd ~
 cd src
 mkdir enlightenment
 cd enlightenment
@@ -54,6 +54,6 @@ ldconfig
 ln -s /usr/local/share/xsessions/enlightenment.desktop /usr/share/xsessions/
 
 ## Clean up
-cd ~vagrant
+cd ~
 cd src
 rm -rf enlightenment

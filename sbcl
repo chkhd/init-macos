@@ -10,7 +10,7 @@ then
 fi
 
 ## Compile SBCL
-cd ~vagrant
+cd ~
 cd src
 ### for whatever reason --depth=1 clone does not compile
 git clone git://git.code.sf.net/p/sbcl/sbcl

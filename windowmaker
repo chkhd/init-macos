@@ -11,7 +11,7 @@ apt-get install -y virtualbox-guest-dkms virtualbox-guest-x11 \
         libxinerama-dev libxmu-dev libxpm-dev libpango1.0-dev perl
 
 ## Compile Windowmaker
-cd ~vagrant
+cd ~
 mkdir src
 cd src
 git clone git://repo.or.cz/wmaker-crm.git windowmaker
@@ -24,7 +24,7 @@ make
 make install
 
 ## Clean up
-cd ~vagrant
+cd ~
 cd src
 rm -rf windowmaker
 

@@ -9,7 +9,7 @@ apt-get install -y build-essential autoconf automake libtool \
         texinfo git-core curl markdown aspell aspell-en ctags
 
 ## Compile Emacs
-cd ~vagrant
+cd ~
 mkdir src
 cd src
 git clone --depth=1 git://git.savannah.gnu.org/emacs.git
@@ -20,7 +20,7 @@ make
 make install
 
 ## Clean up
-cd ~vagrant
+cd ~
 cd src
 cd emacs
 
