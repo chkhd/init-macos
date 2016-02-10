@@ -1,0 +1,8 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Install dockapps from Debian repositories
+apt-get install -y wmhdplop wmclock wmforecast
+
+## TODO: Install other interesting dockapps that are not included in
+## the repositories
