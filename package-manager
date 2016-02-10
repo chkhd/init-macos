@@ -1,0 +1,26 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Ensure correct repositories are configured
+apt-get update -y
+
+apt-get install -y geoip-bin netselect-apt apt-file
+
+cat <<EOF > /etc/apt/sources.list
+deb http://ftp.cz.debian.org/debian/ jessie main contrib non-free
+deb http://ftp.cz.debian.org/debian/ jessie-updates main contrib non-free
+EOF
+
+netselect-apt -n -c "`dig +short myip.opendns.com @resolver1.opendns.com | xargs geoiplookup | cut -d' ' -f4 | tr -d ','`"
+grep deb sources.list | egrep -v "#|security" | cut -d ' ' -f2 | xargs -I% sed -i 's#http.*\/ #% #' /etc/apt/sources.list
+echo "deb http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list
+
+apt-get clean -y all
+apt-get update -y
+
+## Make sure the system is upgraded
+apt-get upgrade -y
+apt-file update
+
+## Clean up
+rm sources.list
