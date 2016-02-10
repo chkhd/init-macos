@@ -1,0 +1,25 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Install required packages
+apt-get install -y unzip curl
+
+## Install fonts
+cd ~vagrant
+
+if [ ! -d .fonts ]
+then
+    mkdir .fonts
+fi
+
+cd .fonts
+curl -O http://www.marksimonson.com/assets/content/fonts/AnonymousPro-1.002.zip
+unzip -o Anon*.zip
+cd `find ./ -type d | grep non`
+mv -f ./*.ttf ../
+
+# Clean up
+cd ~vagrant/.fonts
+rm -rf `find ./ -type d | grep non`
+rm -f .*_A*
+rm -f *.zip
