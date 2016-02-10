@@ -1,0 +1,15 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Use official Virtualbox repositories
+echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" >> /etc/apt/sources.list
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add -
+
+apt-get clean -y
+apt-get update -y
+
+## Make it possible to compile stuff
+apt-get install -y build-essential dkms autoconf automake libtool make cmake
+
+## VirtualBox additions
+apt-get install -y virtualbox-guest-dkms virtualbox-guest-x11
