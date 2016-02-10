@@ -1,0 +1,19 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Install required packages
+apt-get install -y xserver-xorg xserver-xorg-input-all xinit \
+        virtualbox-guest-x11 virtualbox-guest-dkms wmaker \
+        wmhdplop wmclock
+
+cd ~vagrant
+cat <<EOF > .xinitrc
+exec VBoxClient --clipboard&
+exec VBoxClient --draganddrop&
+exec VBoxClient --dsiplay&
+exec VBoxClient --checkhostversion&
+exec VBoxClient --seamless&
+exec wmaker
+EOF
+
+# TODO: Remap Meta, Super, Alt, Ctrl and CapsLock
