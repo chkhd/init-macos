@@ -1,0 +1,11 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Enpass provides a repository for Debian
+echo "deb http://repo.sinew.in/ stable main" > \
+     /etc/apt/sources.list.d/enpass.list
+wget -O - http://repo.sinew.in/keys/enpass-linux.key | apt-key add -
+
+## Install Enpass
+apt-get update -y
+apt-get install -y enpass
