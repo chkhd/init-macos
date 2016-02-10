@@ -1,0 +1,8 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Set up sudo and enable vagrant user to use it without password
+apt-get install -y sudo
+usermod -aG sudo vagrant
+sed -i 's/\/bin"/\/bin"\nDefaults env_keep += "http_proxy https_proxy ftp_proxy no_proxy"/' /etc/sudoers
+sed -i 's/%sudo.*ALL/%sudo ALL=\(ALL:ALL\) NOPASSWD:ALL/' /etc/sudoers
