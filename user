@@ -1,0 +1,7 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Set password for vagrant user, typing 123123 is faster than
+## `vagrant` and the password login should be disabled after
+## installation anyway.
+echo "vagrant:123123" | chpasswd
