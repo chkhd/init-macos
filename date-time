@@ -1,0 +1,8 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Correct data and time, set it to time zone based on users'
+## location and also enable NTP
+pip install -U tzupdate
+tzupdate
+apt-get install -y ntp
