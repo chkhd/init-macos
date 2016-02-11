@@ -1,0 +1,58 @@
+# -*- sh -*-
+# vi: set ft=sh :
+
+## Dependencies
+apt-get install -y build-essential autoconf automake libtool gettext \
+        libasound2-dev libaudiofile-dev libgl1-mesa-dev libesd0-dev \
+        libice-dev libogg-dev libsm-dev libvorbis-dev libxxf86vm-dev \
+        libssl-dev make curl
+
+cd ~
+mkdir src
+cd src
+mkdir legacy-xmms
+cd legacy-xmms
+
+## Some libraries are no longer in the repositories, we have to
+## compile them by hand
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/g/gtk+1.2/libgtk1.2-dev_1.2.10-17_amd64.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/g/gtk+1.2/libgtk1.2_1.2.10-17_amd64.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/g/gtk+1.2/libgtk1.2-common_1.2.10-17_all.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/g/glib1.2/libglib1.2-dev_1.2.10-9_amd64.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/g/glib1.2/libglib1.2_1.2.10-9_amd64.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/libm/libmikmod/libmikmod2-dev_3.1.11-a-6_amd64.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/libm/libmikmod/libmikmod2_3.1.11-a-6_amd64.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/libx/libxml/libxml-dev_1.8.17-10_amd64.deb
+curl -O http://archive.debian.org/debian-archive/debian-amd64/pool/main/libx/libxml/libxml1_1.8.17-10_amd64.deb
+
+dpkg -i ./*.deb
+ldconfig
+
+## Download the last XMMS release
+wget https://legacy.xmms2.org/xmms-1.2.11.tar.bz2
+tar -xf xmms*
+rm xmms*bz2
+cd xmms*
+
+## Compile
+./configure --prefix=/usr/local
+make
+make install
+ldconfig
+
+## Install flac plugin
+cd ~/src
+
+apt-get source -y flac
+cd flac*
+./configure
+make
+
+mkdir -p ~/.xmms/Plugins
+cp src/plugin_xmms/.libs/libxmms-flac.so ~/.xmms/Plugins
+
+## Clean up
+cd ~/src/
+rm -rf xmms*
+rm -rf flac*
+rm -rf legacy-xmms
