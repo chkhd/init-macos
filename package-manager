@@ -4,15 +4,24 @@
 ## Ensure correct repositories are configured
 apt-get update -y
 
-apt-get install -y geoip-bin netselect-apt apt-file
+apt-get install -y geoip-bin apt-file
+#apt-get install -y netselect-apt
 
 cat <<EOF > /etc/apt/sources.list
 deb http://ftp.cz.debian.org/debian/ jessie main contrib non-free
 deb http://ftp.cz.debian.org/debian/ jessie-updates main contrib non-free
 EOF
 
-netselect-apt -n -c "`dig +short myip.opendns.com @resolver1.opendns.com | xargs geoiplookup | cut -d' ' -f4 | tr -d ','`"
-grep deb sources.list | egrep -v "#|security" | cut -d ' ' -f2 | xargs -I% sed -i 's#http.*\/ #% #' /etc/apt/sources.list
+## use just the country code for now, netselect has some issues. For
+## example if the mirror is fast but unusable, f.e. has outdated data,
+## it will still suggest it as the best one.
+#netselect-apt -n -c "`dig +short myip.opendns.com @resolver1.opendns.com | xargs geoiplookup | cut -d' ' -f4 | tr -d ','`"
+#grep deb sources.list | egrep -v "#|security" | cut -d ' ' -f2 | xargs -I% sed -i 's#http.*\/ #% #' /etc/apt/sources.list
+
+## Just use country code for now, assuming whatever debian will point
+## to will be more reliable.
+sed -i "s/.cz./.`dig +short myip.opendns.com @resolver1.opendns.com | xargs geoiplookup | cut -d' ' -f4 | tr -d ',' | tr 'A-Z' 'a-z'`./g" /etc/apt/sources.list
+
 echo "deb http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list
 
 apt-get clean -y all
