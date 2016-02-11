@@ -2,8 +2,7 @@
 # vi: set ft=sh :
 
 ## Install dependencies
-apt-get install -y virtualbox-guest-dkms virtualbox-guest-x11 \
-        xserver-xorg xserver-xorg-input-all xinit xorg-dev\
+apt-get install -y xserver-xorg xserver-xorg-input-all xinit xorg-dev\
         libwings2 libwings-dev build-essential autoconf automake libtool \
         libgif-dev libtiff5-dev libjpeg-dev libxml2-dev libpng12-dev \
         libdbus-1-dev libcairo2-dev librsvg2-dev libwebp-dev \

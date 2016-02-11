@@ -2,8 +2,7 @@
 # vi: set ft=sh :
 
 ## Install required packages
-apt-get install -y xserver-xorg xserver-xorg-input-all xinit \
-        virtualbox-guest-x11 virtualbox-guest-dkms wmaker \
+apt-get install -y xserver-xorg xserver-xorg-input-all xinit wmaker \
         wmhdplop wmclock wmforecast
 
 cd ~vagrant
