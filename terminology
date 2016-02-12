@@ -9,9 +9,10 @@ apt-get install -y libxcb-shape0-dev libxcb-keysyms1-dev libpulse-dev libsndfile
         doxygen check autoconf-archive libpam0g-dev libxp-dev luajit libluajit-5.1-dev
 
 cd ~
+mkdir src
 cd src
-mkdir enlightenment
-cd enlightenment
+mkdir enlight
+cd enlight
 
 ## Dependencies
 PREFIX="/usr/local"
@@ -35,7 +36,7 @@ for PROJ in $PROJECTS; do
     ./autogen.sh $OPT
     make
     make install
-    cd ..
+    cd ~/src/enlight
     ldconfig
     echo $PROJ" is installed" >> $TLOG
 done
@@ -43,6 +44,7 @@ done
 ln -s /usr/local/share/dbus-1/services/org.enlightenment.Ethumb.service /usr/share/dbus-1/services/org.enlightenment.Ethumb.service
 
 ## Terminology itself
+cd ~/src/enlight
 git clone --depth=1 http://git.enlightenment.org/apps/terminology.git
 cd terminology
 sh autogen.sh
@@ -54,6 +56,5 @@ ldconfig
 ln -s /usr/local/share/xsessions/enlightenment.desktop /usr/share/xsessions/
 
 ## Clean up
-cd ~
-cd src
-rm -rf enlightenment
+cd ~/src
+rm -rf enlight
