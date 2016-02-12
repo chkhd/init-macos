@@ -3,7 +3,7 @@
 
 ## Install required packages
 apt-get install -y xserver-xorg xserver-xorg-input-all xinit wmaker \
-        wmhdplop wmclock wmforecast
+        x11-xserver-utils wmhdplop wmclock wmforecast
 
 cd ~vagrant
 cat <<EOF > .xinitrc
@@ -12,6 +12,15 @@ exec VBoxClient --draganddrop&
 exec VBoxClient --dsiplay&
 exec VBoxClient --checkhostversion&
 exec VBoxClient --seamless&
+VBoxClient --clipboard&
+VBoxClient --draganddrop&
+VBoxClient --dsiplay&
+VBoxClient --checkhostversion&
+VBoxClient --seamless&
+
+xset s off
+xset -dpms
+xset s noblank
 exec wmaker
 EOF
 
