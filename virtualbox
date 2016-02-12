@@ -3,7 +3,7 @@
 
 ## Use official Virtualbox repositories
 ## NOTE: This does not contain guest additions!
-echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" > /etc/apt/sources.list.d/virtualbox
+echo "deb http://download.virtualbox.org/virtualbox/debian jessie contrib" > /etc/apt/sources.list.d/virtualbox.list
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | apt-key add -
 
 apt-get clean -y
