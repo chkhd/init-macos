@@ -7,11 +7,6 @@ apt-get install -y xserver-xorg xserver-xorg-input-all xinit wmaker \
 
 cd ~vagrant
 cat <<EOF > .xinitrc
-exec VBoxClient --clipboard&
-exec VBoxClient --draganddrop&
-exec VBoxClient --dsiplay&
-exec VBoxClient --checkhostversion&
-exec VBoxClient --seamless&
 VBoxClient --clipboard&
 VBoxClient --draganddrop&
 VBoxClient --dsiplay&
@@ -21,6 +16,11 @@ VBoxClient --seamless&
 xset s off
 xset -dpms
 xset s noblank
+
+setxkbmap -option ctrl:nocaps
+setxkbmap -option altwin:meta_alt
+setxkbmap -option altwin:swap_alt_win
+
 exec wmaker
 EOF
 
