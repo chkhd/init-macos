@@ -1,0 +1,136 @@
+
+# Start an HTTP server from a directory, optionally specifying the port
+serve () {
+	sleep 1 && open "http://localhost:8000/" &
+
+  /usr/bin/env python3 <<EOF
+import http.server
+
+
+class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_my_headers()
+        http.server.SimpleHTTPRequestHandler.end_headers(self)
+
+    def send_my_headers(self):
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+
+
+if __name__ == '__main__':
+    http.server.test(HandlerClass=MyHTTPRequestHandler)
+EOF
+}
+
+# Change working directory to the top-most Finder window location
+cdf () {
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
+}
+
+disable_desktop_icons () {
+	defaults write com.apple.finder CreateDesktop false && killall Finder
+}
+
+enable_desktop_icons () {
+	defaults write com.apple.finder CreateDesktop true && killall Finder
+}
+
+enable_tm_boost () {
+	sudo sysctl debug.lowpri_throttle_enabled=0
+}
+
+disable_tm_boost () {
+	sudo sysctl debug.lowpri_throttle_enabled=1
+}
+
+run_prometheus () {
+	docker run -d \
+	--name=prometheus \
+	--restart=always \
+	-p 9090:9090 \
+	-v /$DOCKER_VOL_DIR/prometheus:/data \
+	prom/prometheus --config.file=/data/prometheus.yml
+}
+
+run_watchtower () {
+	docker run -d \
+	--name watchtower \
+	--restart always \
+	-d \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	v2tec/watchtower --cleanup
+}
+
+run_gogs () {
+	docker run \
+	--name=gogs \
+	--restart=always \
+	-d \
+	-p 10022:22 \
+	-p 10080:3000 \
+	-v $DOCKER_VOL_DIR/gogs:/data \
+	gogs/gogs
+}
+
+run_drone () {
+	docker run \
+	--name=drone \
+	--restart=always \
+	-d \
+	-p 11080:80 \
+	-v /var/run/docker.sock:/var/run/docker.sock \
+	-v $DOCKER_VOL_DIR/drone:/data \
+	-e 'DRONE_GIT_ALWAYS_AUTH=false' \
+	-e 'DRONE_GOGS_SERVER=http://localhost:10080' \
+	-e 'DRONE_RUNNER_CAPACITY=2' \
+	-e 'DRONE_SERVER_HOST=http://localhost:11080' \
+	-e 'DRONE_SERVER_PROTO=http' \
+	-e 'DRONE_TLS_AUTOCERT=false' \
+	drone/drone:1.0.0-rc.1
+}
+
+run_vault () {
+	docker run \
+	--name=vault \
+	--restart=always \
+	-p 8200:8200 \
+	-d \
+	-v $DOCKER_VOL_DIR/vault:/vault \
+	--cap-add=IPC_LOCK \
+	-e 'VAULT_API_ADDR=http://localhost:8200' \
+	-e 'VAULT_URL_DEFAULT=http://localhost:8200' \
+	-e 'VAULT_LOCAL_CONFIG={"ui": true, "listener": [{"tcp": {"address": "0.0.0.0:8200","tls_disable" : 1}}], "backend": {"file": {"path": "/vault/data"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}' \
+	vault server
+}
+
+run_drone_vault_plugin () {
+	docker run \
+	--name drone-vault-plugin \
+	--restart always \
+	-d \
+	--env=SECRET_KEY=e10b42b2d3a46b70d2dfc97318082e5d \
+	--publish=3000:3000 \
+	drone/vault
+}
+
+run_drone_vault_agent () {
+	docker run \
+	--name=drone-vault-agent \
+	--restart always \
+	-d \
+	--env=DRONE_SECRET_SECRET=e10b42b2d3a46b70d2dfc97318082e5d \
+	--env=DRONE_SECRET_ENDPOINT=http://localhost:3000 \
+	drone/agent
+}
+
+run_redis () {
+	docker run \
+	--name=redis \
+	--restart=always \
+	-d \
+	--publish=127.0.0.1:6379:6379 \
+	-v $DOCKER_VOL_DIR/redis:/data \
+	redis \
+	redis-server --appendonly yes
+}

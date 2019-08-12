@@ -1,0 +1,458 @@
+#!/bin/bash
+
+## Some housekeeping
+# Colors
+Y="\033[1;33m"
+C="\033[0;36m"
+G="\033[1;32m"
+R="\033[1;31m"
+N="\033[0m"
+
+function msg {
+	echo "🤪  ${Y}$*‍"
+}
+
+function devtools_installed {
+    command -v clang || command -v gcc
+} &> /dev/null
+
+## Avoid repeated prompts whenever possible
+sudo -v
+
+## Development tools need to be installed
+if devtools_installed; then
+  msg "Command Line Tools already installed"
+else
+  msg "Installing MacOS Command Line Tools"
+  xcode-select --install
+fi
+
+## Install Homebrew
+if command -v brew &> /dev/null; then
+    msg "Homebrew already installed"
+else
+    msg "Installing homebrew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+## Update once
+brew update
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+## Install packages
+msg "Installing taps"
+brew tap wagoodman/dive
+brew tap weaveworks/tap
+brew tap datawire/blackbird
+brew tap railwaycat/emacsmacport
+brew tap homebrew/cask-fonts
+brew tap homebrew/cask-versions
+
+# Casks
+PACKAGES=$(cat <<EOF
+osxfuse
+goland
+intellij-idea
+pycharm
+protonmail-bridge
+transmission
+itsycal
+firefox-developer-edition
+calibre
+keybase
+discord
+battle-net
+docker
+gpg-suite-no-mail
+coconutbattery
+dash
+xld
+hex-fiend
+viber
+skype
+vlc
+virtualbox
+virtualbox-extension-pack
+typora
+postico
+postgres
+macvim
+emacs-mac
+macsvg
+iterm2
+dotnet-sdk
+keepingyouawake
+karabiner-elements
+gimp
+android-file-transfer
+smcfancontrol
+sublime-text
+hammerspoon
+visual-studio-code
+wireshark
+xquartz
+font-fira-code
+font-source-code-pro
+font-sourcecodepro-nerd-font
+font-sourcecodepro-nerd-font-mono
+font-anonymouspro-nerd-font
+font-anonymouspro-nerd-font-mono
+font-bitstreamverasansmono-nerd-font
+font-bitstreamverasansmono-nerd-font-mono
+font-dejavusansmono-nerd-font
+font-dejavusansmono-nerd-font-mono
+font-droidsansmono-nerd-font
+font-droidsansmono-nerd-font-mono
+font-firacode-nerd-font
+font-firacode-nerd-font-mono
+font-firamono-nerd-font
+font-firamono-nerd-font-mono
+font-go-mono-nerd-font
+font-go-mono-nerd-font-mono
+font-gohu-nerd-font
+font-gohu-nerd-font-mono
+font-hack-nerd-font
+font-hack-nerd-font-mono
+font-hasklig-nerd-font
+font-hasklig-nerd-font-mono
+font-meslo-nerd-font
+font-meslo-nerd-font-mono
+font-monofur-nerd-font
+font-monofur-nerd-font-mono
+font-monoid-nerd-font
+font-monoid-nerd-font-mono
+font-mononoki-nerd-font
+font-mononoki-nerd-font-mono
+EOF
+)
+
+msg "Installing casks"
+for P in ${PACKAGES[@]}
+do
+    brew cask install ${P}
+done
+
+# Everything else
+PACKAGES=$(cat <<EOF
+coreutils
+aspell
+autoconf
+automake
+awscli
+bash
+parallel
+bash-completion
+bat
+cscope
+dive
+docker-compose
+fzf
+git
+gnu-sed
+gnupg
+gnutls
+go
+gradle
+htop
+hub
+jq
+kubectx
+kubernetes-cli
+kubernetes-helm
+xz
+watch
+wireguard-tools
+fswatch
+tmux
+the_silver_searcher
+terraform
+telepresence
+tcptraceroute
+skaffold
+shfmt
+shellcheck
+sbcl
+rlwrap
+python
+black
+pkg-config
+pandoc
+openssl
+openldap
+node
+ncurses
+nano
+nmap
+mas
+mtr
+midnight-commander
+lynx
+luajit
+lua
+stow
+telepresence
+termshark
+EOF
+)
+
+msg "Installing all other formulae"
+brew install ${PACKAGES}
+
+brew cleanup
+unset PACKAGES
+
+## MacOS App Store apps
+if mas lucky "Night Owl"; then
+  msg "Already signed into App Store"
+else
+  msg "Please sign-in into Mac App Store with your Apple ID"
+  open /Applications/App\ Store.app
+  while ! mas lucky "Night Owl"
+  do
+    sleep 5
+  done
+fi
+
+PACKAGES=$(cat <<EOF | egrep -v "#|^\n"
+"The Unarchiver"
+iMovie
+Pages
+Keynote
+Magnet
+Enpass
+Slack
+EOF
+)
+
+msg "Installing packages from macos app store"
+# Disabled in current version, you have to sign-in manually
+# msg "Input your Apple ID"
+# read -s APPLE_ID
+# mas signin ${APPLE_ID}
+for P in ${PACKAGES[@]}
+do
+  mas lucky ${P}
+done
+
+## Automatically run `docker prune` regularly
+msg "Installing docker auto prune plist"
+sudo bash -c ' cat <<EOF > /Library/LaunchDaemons/DockerSystemPrune.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+          http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>DockerSystemPrue</string>
+    <key>Program</key>
+    <string>/usr/local/bin/docker system prune -f</string>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>3</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+</dict>
+</plist>
+EOF'
+
+## Python
+msg "Installing pip packages"
+pip3 install \
+  httpie \
+  httpie-aws-auth \
+  httpie-aws-authv4 \
+  ipython \
+  rope \
+  requests \
+  pytest \
+  pytest-mock \
+  pylint \
+  pyflakes \
+  pydocstyle \
+  black \
+  boto3 \
+  moto \
+  flake8 \
+  flake8-bugbear \
+  jedi \
+  mccabe \
+  pipenv
+
+## Lisp
+msg "Installing quicklisp"
+curl -O https://beta.quicklisp.org/quicklisp.lisp && \
+curl -O https://beta.quicklisp.org/quicklisp.lisp.asc && \
+curl -O https://beta.quicklisp.org/release-key.txt && \
+gpg --import release-key.txt && \
+gpg --verify quicklisp.lisp.asc quicklisp.lisp && \
+	sbcl --load quicklisp.lisp --eval "(progn (quicklisp-quickstart:install) (quit))"
+
+rm quicklisp.lisp quicklisp.lisp.asc release-key
+
+## chkhd repos
+msg "Installing bash-prompt"
+git clone https://github.com/chkhd/bash-prompt ~/.bash-prompt
+printf "\nsource ~/.bash-prompt/bash-prompt.sh\n" >> ~/.bashrc_local
+
+msg "Configuring Emacs"
+git clone https://github.com/chkhd/emacs-config ~/.emacs.d
+
+msg "Configuring Vim"
+git clone https://github.com/chkhd/vim-config ~/.vim
+ln -s ~/.vimrc ~/.vim/.vimrc
+ln -s ~/.gvimrc ~/.vim/.vimrc
+
+#msg "Configuring Sublime Text"
+#msg "Configuring VS Code"
+
+## Copy over all the dot files
+msg "Backing up files in home directory"
+# Not everything will be backed up, f.e. .nanorc .companyrc .bashrc_local will be ignored
+mkdir ~/backups
+BACKUP_ID=~/backups/`date +%d%m%y.%s`
+mkdir ${BACKUP_ID}
+
+INVENTORY=$(ls -A home)
+for I in ${INVENTORY[@]}
+do
+  mv ${HOME}/${I} ${BACKUP_ID}/
+done
+
+DIRS=$(find home  -type d -depth 1 -exec basename {} \;)
+for D in ${DIRS[@]}
+do
+  mkdir ${HOME}/${D}
+done
+chmod 700 ~/.ssh
+
+msg "Generating symlinks"
+touch ~/.stow-global-ignore
+stow home -t ${HOME}
+rm ~/.stow-global-ignore
+
+## Nano, this needs to be done after dot file installation
+msg "Configuring nano"
+mkdir ~/src
+git clone https://github.com/scopatz/nanorc.git ~/src/nano-syntax
+
+cat <<EOF > ~/.nanorc
+# More tolerable editing
+set autoindent
+set historylog
+set nohelp
+set nowrap
+set positionlog
+set tabsize 4
+set quickblank
+
+# Emacs keybindings please
+bind ^G cancel all
+bind ^Y paste all
+
+# Syntax highlighting
+# To load all syntax files:
+# mkdir ~/src
+# git clone https://github.com/scopatz/nanorc.git ~/src/nano-syntax
+# find ~/src/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
+EOF
+
+find ~/src/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
+
+## Modify some defaults
+msg "Adjusting MacOS defaults"
+# Disable automatic marking of prompt lines in Terminal
+defaults write com.apple.Terminal AutoMarkPromptLines -int 0
+
+# Disable desktop icons
+defaults write com.apple.finder CreateDesktop false
+
+# Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Check for software updates daily, not just once per week
+defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+
+# Disable auto-correct
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Require password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# Save screenshots to the Pictures
+defaults write com.apple.screencapture location -string "${HOME}/Pictures"
+
+# Enable subpixel font rendering on non-Apple LCDs
+defaults write NSGlobalDomain AppleFontSmoothing -int 2
+
+# Disable the warning when changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Avoid creating .DS_Store files on network volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# Disable the warning before emptying the Trash
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
+# Bottom left screen corner → Start screen saver
+defaults write com.apple.dock wvous-bl-corner -int 5
+
+# Show the full URL in the address bar (note: this still hides the scheme)
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+
+# Prevent Safari from opening ‘safe’ files automatically after downloading
+defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
+
+# Enable the Develop menu and the Web Inspector in Safari
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+
+# Add a context menu item for showing the Web Inspector in web views
+defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+
+# Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
+defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
+
+# Disable inline attachments (just show the icons)
+defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
+
+# Only use UTF-8 in Terminal.app
+defaults write com.apple.terminal StringEncodings -array 4
+
+# Prevent Time Machine from prompting to use new hard drives as backup volume
+defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+
+# Use plain text mode for new TextEdit documents
+defaults write com.apple.TextEdit RichText -int 0
+
+# Open and save files as UTF-8 in TextEdit
+defaults write com.apple.TextEdit PlainTextEncoding -int 4
+defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
+
+# Set tab width to 4 instead of the default 8
+defaults write com.apple.TextEdit "TabWidth" "4"
+
+# Disable automatic emoji substitution (i.e. use plain text smileys)
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
+
+# Prevent Time Machine from prompting to use new hard drives as backup volume
+defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+
+# Disable local Time Machine backups
+sudo tmutil disable local
+
+# Show all processes in Activity Monitor
+defaults write com.apple.ActivityMonitor ShowCategory -int 0
+
+# Sort Activity Monitor results by CPU usage
+defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
+defaults write com.apple.ActivityMonitor SortDirection -int 0
+
+# Prevent Photos from opening automatically when devices are plugged in
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+# Disable smart quotes as it’s annoying for messages that contain code
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false

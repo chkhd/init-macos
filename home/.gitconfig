@@ -1,0 +1,71 @@
+[user]
+	email = chkhd@amazon.com
+	name = David Chkhikvadze
+
+[color]
+	ui = auto
+
+[core]
+	pager = less -FMRiX
+	editor = nano
+
+	# Make `git rebase` safer on macOS
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+
+	# Speed up commands involving untracked files such as `git status`.
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+	untrackedCache = true
+
+	excludesfile=~/.gitignore
+
+[push]
+	default = simple
+
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
+
+#[commit]
+#	# https://help.github.com/articles/signing-commits-using-gpg/
+#	gpgsign = true
+
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+
+[alias]
+	s = status -s
+	ss = status
+	b = branch -a
+	rl = remote -v
+	tl = tag -l
+	bb = checkout -b
+	co = checkout
+	r = remote
+	f = fetch
+	t = tag
+	a = commit --amend --reuse-message=HEAD
+	amend = commit --amend --reuse-message=HEAD
+	aa = commit --amend
+
+	# Remove branches that have already been merged with master
+	# a.k.a. ‘delete merged’
+	cleanup = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+	l = log --graph --pretty=oneline --abbrev-commit --decorate --color -n 15
+	lll = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+	ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+	contrib = shortlog -ns
+
+	# Show the diff between the latest commit and the current state
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+
+	al = config --get-regexp alias
+
+	# Find commits by commit message
+	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"

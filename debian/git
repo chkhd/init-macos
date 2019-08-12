@@ -1,5 +1,0 @@
-# -*- sh -*-
-# vi: set ft=sh :
-
-## Install Git
-apt-get install -y git-core
