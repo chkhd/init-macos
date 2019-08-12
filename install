@@ -25,6 +25,12 @@ if devtools_installed; then
 else
   msg "Installing MacOS Command Line Tools"
   xcode-select --install
+
+  while ! devtools_intalled
+  do
+    sleep 10
+  done
+
 fi
 
 ## Install Homebrew
