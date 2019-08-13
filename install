@@ -467,3 +467,6 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 # Disable smart quotes as it’s annoying for messages that contain code
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
+
+# Most stuff needs a new session
+msg "Installation complete, open a new terminal session to load configuration"
