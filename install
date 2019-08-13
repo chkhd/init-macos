@@ -288,14 +288,19 @@ pip3 install \
 
 ## Lisp
 msg "Installing quicklisp"
-curl -O https://beta.quicklisp.org/quicklisp.lisp && \
-curl -O https://beta.quicklisp.org/quicklisp.lisp.asc && \
-curl -O https://beta.quicklisp.org/release-key.txt && \
-gpg --import release-key.txt && \
-gpg --verify quicklisp.lisp.asc quicklisp.lisp && \
-	sbcl --load quicklisp.lisp --eval "(progn (quicklisp-quickstart:install) (quit))"
+if [[ -d "${HOME}/quicklisp" ]]; then
+    msg "Quicklisp already installed"
+else
+  curl -O https://beta.quicklisp.org/quicklisp.lisp && \
+  curl -O https://beta.quicklisp.org/quicklisp.lisp.asc && \
+  curl -O https://beta.quicklisp.org/release-key.txt && \
 
-rm quicklisp.lisp quicklisp.lisp.asc release-key
+  gpg --import release-key.txt && \
+  gpg --verify quicklisp.lisp.asc quicklisp.lisp && \
+  	sbcl --load quicklisp.lisp --eval "(progn (quicklisp-quickstart:install) (quit))"
+
+  rm quicklisp.lisp quicklisp.lisp.asc release-key.txt
+fi
 
 ## chkhd repos
 msg "Installing bash-prompt"
