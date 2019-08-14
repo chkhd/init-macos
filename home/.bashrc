@@ -16,7 +16,8 @@ alias b=brew
 export PATH="${PATH}:/usr/local/bin:/usr/local/sbin"
 
 # bash-completion
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+BASH_CMP_SCRIPT="/usr/local/etc/profile.d/bash_completion.sh"
+[[ -r  ${BASH-CMP_SCRIPT} ]] && source ${BASH_CMP_SCRIPT}
 
 # More completion
 FILES=$({ find ~/.completion -type l & find ~/.completion -type f; })
