@@ -342,6 +342,11 @@ touch ~/.stow-global-ignore
 stow home -t ${HOME}
 rm ~/.stow-global-ignore
 
+## Setting homebrew bash as the default shell
+if [[ -f /usr/local/bin/bash ]]; then
+  sudo chsh -s /usr/local/bin/bash ${USER}
+fi
+
 ## Nano, this needs to be done after dot file installation
 msg "Configuring nano"
 mkdir ~/src
