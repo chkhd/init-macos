@@ -164,6 +164,7 @@ jq
 kubectx
 kubernetes-cli
 kubernetes-helm
+kubernetes-service-catalog-client
 xz
 watch
 wireguard-tools
