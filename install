@@ -344,6 +344,7 @@ stow home -t ${HOME}
 rm ~/.stow-global-ignore
 
 ## Setting homebrew bash as the default shell
+msg "Use fresh Bash from Homebrew as default shell"
 if [[ -f /usr/local/bin/bash ]]; then
   sudo chsh -s /usr/local/bin/bash ${USER}
 fi
