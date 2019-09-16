@@ -180,6 +180,7 @@ shellcheck
 sbcl
 rlwrap
 python
+protobuf
 black
 pkg-config
 pandoc
