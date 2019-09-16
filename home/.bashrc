@@ -13,6 +13,7 @@ shopt -s histappend;
 
 # Homebrew
 alias b=brew
+alias buc="brew update; brew upgrade; brew cleanup"
 export PATH="${PATH}:/usr/local/bin:/usr/local/sbin"
 
 # bash-completion
