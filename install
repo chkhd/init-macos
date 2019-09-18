@@ -57,6 +57,7 @@ brew tap homebrew/cask-versions
 PACKAGES=$(cat <<EOF
 osxfuse
 goland
+webstorm
 intellij-idea
 pycharm
 protonmail-bridge
