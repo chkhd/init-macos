@@ -71,7 +71,8 @@ nano=/usr/local/bin/nano
 ls ${nano} &> /dev/null && alias nano=${nano}
 
 # Better cat
-alias bat='bat --paging=never'
+export BAT_STYLE="plain"
+alias bat='bat --paging=never --theme TwoDark'
 
 # Games
 alias wow='~/World\ of\ Warcraft\ Classic/WoW\ Classic.app/Contents/MacOS/World\ of\ Warcraft'
