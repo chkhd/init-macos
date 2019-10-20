@@ -105,6 +105,9 @@ font-anonymouspro-nerd-font
 font-anonymouspro-nerd-font-mono
 font-bitstreamverasansmono-nerd-font
 font-bitstreamverasansmono-nerd-font-mono
+font-cascadia
+font-denk-one
+font-englebert
 font-dejavusansmono-nerd-font
 font-dejavusansmono-nerd-font-mono
 font-droidsansmono-nerd-font
@@ -129,6 +132,25 @@ font-monoid-nerd-font
 font-monoid-nerd-font-mono
 font-mononoki-nerd-font
 font-mononoki-nerd-font-mono
+font-ubuntumono-nerd-font-mono
+font-ubuntumono-nerd-font
+font-fantasquesansmono-nerd-font
+font-fantasquesansmono-nerd-font-mono
+font-georgia
+font-inconsolata-nerd-font
+font-inconsolata-nerd-font-mono
+font-input
+font-iosevka-nerd-font
+font-iosevka-nerd-font-mono
+font-iosevka-slab
+font-lekton-nerd-font
+font-lekton-nerd-font-mono
+font-luculent
+font-nova-mono
+font-oxygen-mono
+font-robotomono-nerd-font
+font-terminus-nerd-font
+font-terminus-nerd-font-mono
 EOF
 )
 
