@@ -11,6 +11,33 @@ export PATH="${PATH}:${HOME}/bin"
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend;
 
+# Colors
+Y="\033[1;33m"
+C="\033[0;36m"
+G="\033[1;32m"
+R="\033[1;31m"
+N="\033[0m"
+
+function echo_color {
+	echo -e "${1}${2}${N}"
+}
+
+function yellow {
+	echo_color "${Y}" "${1}"
+}
+
+function cyan {
+	echo_color "${C}" "${1}"
+}
+
+function green {
+	echo_color "${G}" "${1}"
+}
+
+function red {
+	echo_color "${R}" "${1}"
+}
+
 # Homebrew
 alias b=brew
 alias buc="brew update; brew upgrade; brew cleanup"
@@ -137,6 +164,43 @@ alias gdh="git d HEAD^"
 alias gcm="git commit -m"
 alias gll="git ll"
 alias glll="git lll"
+
+# AWS
+function ap {
+	# AWS Profile
+
+	if test -z "${AWS_PROFILE}"; then
+		export AWS_PROFILE=$1
+	else
+		echo "${AWS_PROFILE}"
+	fi
+}
+
+function apl {
+	# AWS Profile List
+
+	local profiles
+	local profile
+	local current_profile
+
+	profiles="${HOME}/.aws/credentials"
+	if ! test -f "${profiles}"; then
+		echo "No profiles have been configured"
+		return 1
+	fi
+
+	profiles=$(cat "${profiles}" | grep \\[ | tr -d "[]")
+	current_profile=$(ap)
+
+	for profile in ${profiles[@]}
+	do
+		if test "${current_profile}" == "${profile}"; then
+			yellow "${profile}"
+		else
+			echo "${profile}"
+		fi
+	done
+}
 
 # Ruby
 export PATH=~/.gem/ruby/2.3.0/bin:${PATH}
