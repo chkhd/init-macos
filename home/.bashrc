@@ -2,6 +2,7 @@ export HISTSIZE=1000000
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export MY_HOST_NICKNAME='mbp'
+export SHOW_AWS_PROFILE='true'
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
