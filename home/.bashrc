@@ -44,6 +44,9 @@ alias b=brew
 alias buc="brew update; brew upgrade; brew cleanup"
 export PATH="${PATH}:/usr/local/bin:/usr/local/sbin"
 
+# Pip
+alias puc="pip3 list --outdated | cut -f1 -d\ | xargs -n1 -I% pip3 install --upgrade %"
+
 # bash-completion
 BASH_CMP_SCRIPT="/usr/local/etc/profile.d/bash_completion.sh"
 [[ -r  ${BASH-CMP_SCRIPT} ]] && source ${BASH_CMP_SCRIPT}
