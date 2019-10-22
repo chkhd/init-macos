@@ -169,10 +169,12 @@ alias glll="git lll"
 function ap {
 	# AWS Profile
 
-	if test -z "${AWS_PROFILE}"; then
+	if ! test -z "$1"; then
 		export AWS_PROFILE=$1
 	else
-		echo "${AWS_PROFILE}"
+		if ! test -z "$AWS_PROFILE"; then
+			echo "${AWS_PROFILE}"
+		fi
 	fi
 }
 
