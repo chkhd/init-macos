@@ -63,7 +63,7 @@ done
 # Quality of life
 alias e=$(echo ${EDITOR})
 
-alias i=egrep
+alias i="egrep -i --color"
 complete -o default -F _longopt i
 
 alias f=find
