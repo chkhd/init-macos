@@ -54,7 +54,7 @@ alias puc="pip3 list --outdated | cut -f1 -d\ | xargs -n1 -I% pip3 install --upg
 
 # bash-completion
 BASH_CMP_SCRIPT="/usr/local/etc/profile.d/bash_completion.sh"
-test -r  "$BASH-CMP_SCRIPT" && source "$BASH_CMP_SCRIPT"
+test -r  "$BASH_CMP_SCRIPT" && source "$BASH_CMP_SCRIPT"
 
 # More completion
 FILES=$({ find ~/.completion -type l & find ~/.completion -type f; })
