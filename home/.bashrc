@@ -1,9 +1,6 @@
 export HISTSIZE=1000000
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export MY_HOST_NICKNAME='mbp'
-export SHOW_AWS_PROFILE='true'
-export SHOW_K8S_CONTEXT='true'
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -67,10 +64,14 @@ do
 	source "$f"
 done
 
+# GNU tools by default
+alias sed="gsed"
+alias grep="pcre2grep"
+
 # Quality of life
 alias e=$(echo ${EDITOR})
 
-alias i="egrep -i --color"
+alias i="pcre2grep -i --color"
 complete -o default -F _longopt i
 
 alias f=find
@@ -85,7 +86,7 @@ alias tftpd-stop='sudo launchctl unload -F /System/Library/LaunchDaemons/tftp.pl
 alias dnsflush="sudo killall -HUP mDNSResponder"
 alias wanip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias lanip="ipconfig getifaddr en0"
-alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+alias ifactive="ifconfig | pcre2grep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 alias upgrade="sudo softwareupdate -i -a"
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy"
 
