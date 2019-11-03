@@ -131,7 +131,9 @@ complete -C ~/src/go/bin/gocomplete go
 export PATH="${HOME}/.cargo/bin:${PATH}"
 
 # Kubernetes
+alias k="kubectl"
 alias kcl="kubectl"
+complete -o default -o nospace -F __start_kubectl k
 complete -o default -o nospace -F __start_kubectl kcl
 
 alias kcx="kubectx"
