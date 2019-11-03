@@ -154,15 +154,19 @@ bat
 cscope
 dive
 docker-compose
+eksctl
 fzf
+fluxctl
 git
 gnu-sed
+grep
 gnupg
 gnutls
 go
 gradle
 htop
 hub
+helm@beta
 jq
 kubectx
 kubernetes-cli
@@ -200,6 +204,7 @@ lynx
 luajit
 lua
 stow
+stern
 telepresence
 termshark
 EOF
