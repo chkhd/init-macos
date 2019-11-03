@@ -69,7 +69,8 @@ alias sed="gsed"
 alias grep="pcre2grep"
 
 # Quality of life
-alias e=$(echo ${EDITOR})
+alias e="\$EDITOR"
+eval "$(complete | pcre2grep " $EDITOR\$" | sed "s/ $EDITOR\$/ e/")"
 
 alias i="pcre2grep -i --color"
 complete -o default -F _longopt i
