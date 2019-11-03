@@ -13,6 +13,11 @@ export PATH="${PATH}:${HOME}/bin"
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend;
 
+# bash-prompt
+export MY_HOST_NICKNAME='mbp'
+export SHOW_AWS_PROFILE='true'
+export SHOW_K8S_CONTEXT='true'
+
 # Colors
 Y="\033[1;33m"
 C="\033[0;36m"
@@ -41,7 +46,9 @@ function red {
 }
 
 # Homebrew
-alias b=brew
+alias b="brew"
+complete -o bashdefault -o default -F _brew b
+
 alias buc="brew update; brew upgrade; brew cleanup"
 export PATH="${PATH}:/usr/local/bin:/usr/local/sbin"
 
@@ -50,14 +57,14 @@ alias puc="pip3 list --outdated | cut -f1 -d\ | xargs -n1 -I% pip3 install --upg
 
 # bash-completion
 BASH_CMP_SCRIPT="/usr/local/etc/profile.d/bash_completion.sh"
-[[ -r  ${BASH-CMP_SCRIPT} ]] && source ${BASH_CMP_SCRIPT}
+test -r  "$BASH-CMP_SCRIPT" && source "$BASH_CMP_SCRIPT"
 
 # More completion
 FILES=$({ find ~/.completion -type l & find ~/.completion -type f; })
 
 for f in ${FILES}
 do
-	source "${f}"
+	source "$f"
 done
 
 # Quality of life
@@ -99,8 +106,8 @@ alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/C
 alias path='echo -e ${PATH//:/\\n}'
 
 # Use newer nano from brew when available
-nano=/usr/local/bin/nano
-ls ${nano} &> /dev/null && alias nano=${nano}
+nano="/usr/local/bin/nano"
+test -x "$nano" && alias nano="$nano"
 
 # Better cat
 export BAT_STYLE="plain"
@@ -113,9 +120,9 @@ alias wow='~/World\ of\ Warcraft\ Classic/WoW\ Classic.app/Contents/MacOS/World\
 export GOPATH=${HOME}/src/go
 export GOROOT=/usr/local/opt/go/libexec
 
-export PATH=${PATH}:/usr/local/opt/go/libexec/bin
-export PATH=${PATH}:${GOPATH}/bin
-export PATH=${PATH}:${GOROOT}/bin
+export PATH="${PATH}:/usr/local/opt/go/libexec/bin"
+export PATH="${PATH}:${GOPATH}/bin"
+export PATH="${PATH}:${GOROOT}/bin"
 
 complete -C ~/src/go/bin/gocomplete go
 
@@ -148,7 +155,7 @@ alias kgi="kubectl describe"
 
 alias kgrs="kubectl get rs -o wide"
 
-alias mk=minikube
+alias mk="minikube"
 complete -o default -o nospace -F __start_minikube mk
 
 # Docker
@@ -156,7 +163,7 @@ alias di="docker images"
 alias da="docker ps -a"
 
 ## Git
-alias g=git
+alias g="git"
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
 alias gs="git s"
@@ -178,7 +185,7 @@ function ap {
 		export AWS_PROFILE=$1
 	else
 		if ! test -z "$AWS_PROFILE"; then
-			echo "${AWS_PROFILE}"
+			echo "$AWS_PROFILE"
 		fi
 	fi
 }
@@ -191,7 +198,7 @@ function apl {
 	local current_profile
 
 	profiles="${HOME}/.aws/credentials"
-	if ! test -f "${profiles}"; then
+	if ! test -f "$profiles"; then
 		echo "No profiles have been configured"
 		return 1
 	fi
@@ -201,19 +208,19 @@ function apl {
 
 	for profile in ${profiles[@]}
 	do
-		if test "${current_profile}" == "${profile}"; then
-			yellow "${profile}"
+		if test "$current_profile" == "$profile"; then
+			yellow "$profile"
 		else
-			echo "${profile}"
+			echo "$profile"
 		fi
 	done
 }
 
 # Ruby
-export PATH=~/.gem/ruby/2.3.0/bin:${PATH}
+export PATH="~/.gem/ruby/2.3.0/bin:${PATH}"
 
 # Python
-export PATH=${HOME}/Library/Python/`python3 --version | cut -d" " -f2 | cut -d. -f1,2`/bin:${PATH}
+export PATH="${HOME}/Library/Python/$(python3 --version | cut -d' ' -f2 | cut -d. -f1,2)/bin:${PATH}"
 
 # This .bashrc will be symlinked, so adding auto-generated stuff here would be a bad idea
 if [[ -f ~/.bashrc_local ]]; then
