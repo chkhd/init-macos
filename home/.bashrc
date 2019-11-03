@@ -159,6 +159,13 @@ alias mk="minikube"
 complete -o default -o nospace -F __start_minikube mk
 
 # Docker
+alias d="docker"
+
+DOCKER_COMPLETION_FILE="/Applications/Docker.app/Contents/Resources/etc/docker.bash-completion"
+test -r "$DOCKER_COMPLETION_FILE" && source "$DOCKER_COMPLETION_FILE"
+
+complete -F _docker d
+
 alias di="docker images"
 alias da="docker ps -a"
 
