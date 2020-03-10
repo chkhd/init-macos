@@ -65,6 +65,8 @@ do
 done
 
 # GNU tools by default
+alias watch='watch --color '
+
 alias sed="gsed"
 alias grep="pcre2grep"
 
@@ -146,18 +148,18 @@ complete -F _kube_namespaces kns
 alias kg="kubectl get"
 alias kd="kubectl delete"
 
-alias kgp="kubectl get pods -o wide"
-alias kga="kubectl get pods --all-namespaces -o wide"
-alias kgk="kubectl get pods -n kube-system -o wide"
-alias kgs="kubectl get svc -o wide"
-alias kgr="kubectl get rc -o wide"
-alias kgd="kubectl get deployments -o wide"
-alias kgn="kubectl get namespaces -o wide"
-alias kca="kubectl apply"
-alias kgl="kubectl logs"
-alias kgi="kubectl describe"
+alias kgp="k get pods -o wide"
+alias kga="k get pods --all-namespaces -o wide"
+alias kgk="k get pods -n kube-system -o wide"
+alias kgs="k get svc -o wide"
+alias kgr="k get rc -o wide"
+alias kgd="k get deployments -o wide"
+alias kgn="k get namespaces -o wide"
+alias kca="k apply"
+alias kgl="k logs"
+alias kgi="k describe"
 
-alias kgrs="kubectl get rs -o wide"
+alias kgrs="k get rs -o wide"
 
 alias mk="minikube"
 complete -o default -o nospace -F __start_minikube mk
