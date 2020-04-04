@@ -12,8 +12,9 @@ shopt -s histappend;
 
 # bash-prompt
 export MY_HOST_NICKNAME='mbp'
-export SHOW_AWS_PROFILE='true'
+#export SHOW_AWS_PROFILE='true'
 export SHOW_K8S_CONTEXT='true'
+export SHOW_K8S_NS='true'
 
 # Colors
 Y="\033[1;33m"
