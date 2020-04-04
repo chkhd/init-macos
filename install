@@ -52,6 +52,7 @@ brew tap datawire/blackbird
 brew tap railwaycat/emacsmacport
 brew tap homebrew/cask-fonts
 brew tap homebrew/cask-versions
+brew tap discoteq/discoteq
 
 # Casks
 PACKAGES=$(cat <<EOF
@@ -112,6 +113,7 @@ dive
 eksctl
 fzf
 fluxctl
+flock
 git
 git-filter-repo
 gnu-sed
