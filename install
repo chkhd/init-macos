@@ -56,6 +56,7 @@ brew tap discoteq/discoteq
 
 # Casks
 PACKAGES=$(cat <<EOF
+adoptopenjdk
 android-file-transfer
 battle-net
 coconutbattery
@@ -85,9 +86,12 @@ transmission
 viber
 visual-studio-code
 vlc
+webex-meetings
+webex-teams
 wireshark
 xld
 xquartz
+zotero
 EOF
 )
 
@@ -106,17 +110,25 @@ awscli
 bash
 bash-completion
 bat
+bazel
 black
+cmake
 coreutils
 cscope
 dive
+drone-cli
 eksctl
+ffmpeg
+flac
 flock
 fluxctl
+fpc
 fswatch
 fzf
+gh
 git
 git-filter-repo
+git-lfs
 gnu-sed
 gnupg
 gnutls
@@ -127,15 +139,20 @@ helm
 helm@2
 htop
 hub
+ibazel
+istioctl
 jq
+krew
 kubectx
 kubernetes-cli
+lame
 lua
 luajit
 lynx
 mage
 mas
 midnight-commander
+mongodb-community-shell
 mtr
 nano
 ncurses
@@ -153,10 +170,10 @@ sbcl
 shellcheck
 shfmt
 skaffold
+socat
 stern
 stow
 tcptraceroute
-telepresence
 telepresence
 termshark
 terraform
@@ -164,6 +181,7 @@ the_silver_searcher
 tmux
 watch
 wireguard-tools
+wtf
 xz
 yq
 yuicompressor
@@ -196,6 +214,9 @@ Keynote
 Magnet
 Pages
 Slack
+
+# Swift Playgrounds
+1496833156
 EOF
 )
 
