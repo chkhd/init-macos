@@ -230,9 +230,6 @@ function apl {
 	done
 }
 
-# Ruby
-export PATH="~/.gem/ruby/2.3.0/bin:${PATH}"
-
 # Python
 export PATH="${HOME}/Library/Python/$(python3 --version | cut -d' ' -f2 | cut -d. -f1,2)/bin:${PATH}"
 
