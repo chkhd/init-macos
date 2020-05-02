@@ -279,13 +279,14 @@ pip3 install \
 ## Go
 msg "Installing Go packages"
 
-mkdir -p ~/src/go
-GOPATH=${HOME}/src/go
+mkdir -p ~/src/third_party/go
+GOPATH=${HOME}/src/third_party/go
 GOROOT=/usr/local/opt/go/libexec
 
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${GOROOT}/bin
 
+# Disabled to avoid errors and allow installing the below globally
 GO111MODULE=off
 
 PACKAGES=$(cat <<EOF
@@ -320,19 +321,24 @@ fi
 
 ## chkhd repos
 msg "Installing bash-prompt"
-git clone https://github.com/chkhd/bash-prompt ~/.bash-prompt
+mkdir -p ~/src/chkhd
+git clone https://github.com/chkhd/bash-prompt ~/src/chkhd/bash-prompt
+ln -s ~/src/chkhd/bash-prompt ~/.bash-prompt
 printf "\nsource ~/.bash-prompt/bash-prompt.sh\n" >> ~/.bashrc_local
 
 msg "Configuring Emacs"
-git clone https://github.com/chkhd/emacs-config ~/.emacs.d
+git clone https://github.com/chkhd/emacs-config ~/src/chkhd/emacs-config
+ln -s ~/src/chkhd/emacs-config ~/.emacs.d
 
 msg "Configuring Vim"
-git clone https://github.com/chkhd/vim-config ~/.vim
+git clone https://github.com/chkhd/vim-config ~/src/chkhd/vim-config
+ln -s ~/src/chkhd/vim-config ~/.vim
 ln -s ~/.vimrc ~/.vim/.vimrc
 ln -s ~/.gvimrc ~/.vim/.vimrc
 
 #msg "Configuring Sublime Text"
 #msg "Configuring VS Code"
+#msg "Configuring JetBrains IDEs"
 
 ## Copy over all the dot files
 msg "Backing up files in home directory"
@@ -368,7 +374,7 @@ fi
 ## Nano, this needs to be done after dot file installation
 msg "Configuring nano"
 mkdir ~/src
-git clone https://github.com/scopatz/nanorc.git ~/src/nano-syntax
+git clone https://github.com/scopatz/nanorc.git ~/src/third_party/nano-syntax
 
 cat <<EOF > ~/.nanorc
 # More tolerable editing
@@ -386,12 +392,12 @@ bind ^Y paste all
 
 # Syntax highlighting
 # To load all syntax files:
-# mkdir ~/src
-# git clone https://github.com/scopatz/nanorc.git ~/src/nano-syntax
-# find ~/src/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
+# mkdir -p ~/src/third_party
+# git clone https://github.com/scopatz/nanorc.git ~/src/third_party/nano-syntax
+# find ~/src/third_party/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
 EOF
 
-find ~/src/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
+find ~/src/third_party/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
 
 ## Modify some defaults
 msg "Adjusting MacOS defaults"
