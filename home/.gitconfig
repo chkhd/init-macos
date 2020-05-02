@@ -46,11 +46,14 @@
 [alias]
 	s = status -s
 	ss = status
-	b = branch -a
+	b = branch
+	bb = branch -a
+	switch = "!f() { git checkout $1 2>/dev/null || git checkout -b $1; }; f"
+	sw = switch
 	rl = remote -v
 	tl = tag -l
-	bb = checkout -b
 	co = checkout
+	cb = checkout -b
 	r = remote
 	f = fetch
 	t = tag
