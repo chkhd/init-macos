@@ -127,7 +127,8 @@ test -x "$nano" && alias nano="$nano"
 
 # Better cat
 export BAT_STYLE='plain'
-alias bat='bat --paging=never --theme TwoDark'
+BAT_THEME=$(dark_mode_enabled && printf "TwoDark" || printf "ansi-light")
+alias bat="bat --paging=never --theme $BAT_THEME"
 
 # Golang
 export GOPATH="${HOME}/src/chkhd/go"
