@@ -45,14 +45,24 @@ brew update
 export HOMEBREW_NO_AUTO_UPDATE=1
 
 ## Install packages
+
+TAPS=$(cat <<EOF
+wagoodman/dive
+weaveworks/tap
+datawire/blackbird
+railwaycat/emacsmacport
+homebrew/cask-fonts
+homebrew/cask-versions
+discoteq/discoteq
+facebook/fb
+EOF
+)
+
 msg "Installing taps"
-brew tap wagoodman/dive
-brew tap weaveworks/tap
-brew tap datawire/blackbird
-brew tap railwaycat/emacsmacport
-brew tap homebrew/cask-fonts
-brew tap homebrew/cask-versions
-brew tap discoteq/discoteq
+for T in ${TAPS[@]}
+do
+    brew tap ${T}
+done
 
 # Casks
 PACKAGES=$(cat <<EOF
