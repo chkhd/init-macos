@@ -45,6 +45,11 @@ function red {
 	echo_color "${R}" "${1}"
 }
 
+# Functions and misc stuff
+if [[ -f ~/.dwim ]]; then
+	source ~/.dwim
+fi
+
 # Homebrew
 alias b='brew'
 complete -o bashdefault -o default -F _brew b
@@ -243,11 +248,6 @@ export PATH="${HOME}/Library/Python/$(python3 --version | cut -d' ' -f2 | cut -d
 # This .bashrc will be symlinked, so adding auto-generated stuff here would be a bad idea
 if [[ -f ~/.bashrc_local ]]; then
 	source ~/.bashrc_local
-fi
-
-# Less generic stuff
-if [[ -f ~/.dwim ]]; then
-	source ~/.dwim
 fi
 
 # Company specific stuff that does not belong in public repo
