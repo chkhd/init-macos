@@ -426,7 +426,11 @@ bind ^Y paste all
 # find ~/src/third_party/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
 EOF
 
-find ~/src/third_party/nano-syntax/ -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
+find ~/src/third_party/nano-syntax/ -print0 -iname "*.nanorc" | xargs -I% echo include % >> ~/.nanorc
+
+## Install an alternative layout, Emacs friendly
+msg "Installing keyboard layouts"
+sudo cp misc/layouts/* /Library/Keyboard\ Layouts/
 
 ## Modify some defaults
 msg "Adjusting MacOS defaults"
