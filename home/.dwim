@@ -44,6 +44,18 @@ disable_tm_boost () {
 	sudo sysctl debug.lowpri_throttle_enabled=1
 }
 
+enable_startup_chime () {
+	sudo nvram StartupMute=%00
+}
+
+disable_startup_chime () {
+	sudo nvram StartupMute=%01
+}
+
+dark_mode_enabled () {
+	test $(osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode.get()") = "true"
+}
+
 run_prometheus () {
 	docker run -d \
 	--name=prometheus \
