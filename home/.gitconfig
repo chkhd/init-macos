@@ -54,6 +54,7 @@
 	tl = tag -l
 	co = checkout
 	cb = checkout -b
+	cm = commit -m
 	r = remote
 	f = fetch
 	t = tag
