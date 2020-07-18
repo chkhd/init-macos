@@ -143,6 +143,7 @@ gnu-sed
 gnupg
 gnutls
 go
+golangci/tap/golangci-lint
 gradle
 grep
 helm
@@ -173,6 +174,7 @@ openssl
 pandoc
 parallel
 pkg-config
+derailed/popeye/popeye
 protobuf
 python
 rlwrap
@@ -300,16 +302,33 @@ PATH=${PATH}:${GOROOT}/bin
 GO111MODULE=off
 
 PACKAGES=$(cat <<EOF
-github.com/golangci/golangci-lint/cmd/golangci-lint
-golang.org/x/tools/go/types
-github.com/posener/complete/gocomplete
+golang.org/x/tools/...
 github.com/mdempsky/gocode
 github.com/sourcegraph/go-langserver
+golang.org/x/tools/cmd/goimports
+github.com/kisielk/errcheck
+honnef.co/go/tools/cmd/staticcheck
+gitlab.com/opennota/check/cmd/aligncheck
+gitlab.com/opennota/check/cmd/structcheck
+gitlab.com/opennota/check/cmd/varcheck
+github.com/remyoudompheng/go-misc/deadcode
+github.com/bombsimon/wsl/cmd/...
+github.com/ultraware/whitespace
+github.com/mdempsky/unconvert
+github.com/alexkohler/prealloc
+github.com/securego/gosec/cmd/gosec
+github.com/jgautheron/goconst/cmd/goconst
+github.com/uudashr/gocognit/cmd/gocognit
+github.com/mibk/dupl
+github.com/tdakkota/asciicheck/cmd/asciicheck
+golang.org/x/lint/golint
+github.com/timakin/bodyclose
 EOF
 )
 
 for P in ${PACKAGES[@]}
 do
+  msg "installing ${P}"
   go get -u "${P}"
 done
 
