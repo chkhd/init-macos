@@ -193,12 +193,23 @@ alias gs='g s'
 alias gl='g l'
 alias gf='g fetch'
 alias ga='g a'
+alias gd='g d'
 
 alias gaa='g aa'
 alias gdh='g d HEAD^'
-alias gcm='g commit -m'
+
 alias gll='g ll'
 alias glll='g lll'
+
+function gcm {
+	git commit -m "$*"
+}
+
+alias g-='g reset '
+alias g+='g add'
+
+alias ggg='g push'
+alias gg='g pull'
 
 # Multirepo stuff
 alias gr='gr '
