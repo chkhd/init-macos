@@ -131,14 +131,14 @@ BAT_THEME=$(dark_mode_enabled && printf "TwoDark" || printf "ansi-light")
 alias bat="bat --paging=never --theme $BAT_THEME"
 
 # Golang
-export GOPATH="${HOME}/src/chkhd/go"
+export GOPATH="${HOME}/src/third_party/go"
 export GOROOT='/usr/local/opt/go/libexec'
 
 export PATH="${PATH}:/usr/local/opt/go/libexec/bin"
 export PATH="${PATH}:${GOPATH}/bin"
 export PATH="${PATH}:${GOROOT}/bin"
 
-complete -C ~/src/chkhd/go/bin/gocomplete go
+complete -C ~/src/third_party/go/bin/gocomplete go
 
 # Rust
 export PATH="${HOME}/.cargo/bin:${PATH}"
