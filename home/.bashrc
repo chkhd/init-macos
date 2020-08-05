@@ -168,6 +168,7 @@ alias kgn='k get namespaces -o wide'
 alias kca='k apply'
 alias kgl='k logs'
 alias kgi='k describe'
+alias kdp='k delete pod'
 
 alias kgrs='k get rs -o wide'
 
