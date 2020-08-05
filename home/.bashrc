@@ -176,6 +176,8 @@ alias mk='minikube'
 complete -o default -o nospace -F __start_minikube mk
 
 # Docker
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
 alias d='docker'
 
 DOCKER_COMPLETION_FILE='/Applications/Docker.app/Contents/Resources/etc/docker.bash-completion'
